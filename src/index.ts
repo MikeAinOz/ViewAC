@@ -13,7 +13,17 @@ var templatePayload = {
         },
         {
             "type": "TextBlock",
-            "text": "Date is {{DATE(${formatDateTime(dateInput, ' ' )})}}"
+            "text": "Date is {{DATE(${formatDateTime(dateInput, 'yyyy-MM-ddTHH:mm:ssZ' )})}}"
+        }
+        ,
+        {
+            "type": "TextBlock",
+            "text": "Date is {{DATE(${dateInput})}}"
+        },
+        ,
+        {
+            "type": "TextBlock",
+            "text": "Date is ${formatDateTime(dateInput, 'dd/MM/yyyy' )}"
         }
     ]
 };
@@ -26,7 +36,7 @@ var template = new ACData.Template(templatePayload);
 var cardPayload = template.expand({
    $root: {
       name: "Mike Allen",
-      dateInput: "2020-09-30T00:00:00.000Z"
+      dateInput: "2020-09-30T00:00:00Z"
    }
 });
  
@@ -34,3 +44,13 @@ var cardPayload = template.expand({
 var adaptiveCard = new AdaptiveCards.AdaptiveCard();
 adaptiveCard.parse(cardPayload);
 document.getElementById('ThisCard').appendChild(adaptiveCard.render());
+let lang = window.navigator.languages ? window.navigator.languages[0] : null;
+    lang = lang || window.navigator.language;
+let thisLanguage = "Browser language is: " + lang;
+document.getElementById('ThisCard').appendChild(document.createTextNode(thisLanguage));
+let vendor = (navigator && navigator.vendor || '').toLowerCase();
+let userAgent = (navigator && navigator.userAgent || '').toLowerCase();
+let thisBrowser = "Vendor: " + vendor + " UserAgent: " + userAgent;
+let p1 = document.createElement("p");
+p1.appendChild(document.createTextNode(thisBrowser));
+document.getElementById('ThisCard').appendChild(p1);
