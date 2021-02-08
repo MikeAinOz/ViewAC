@@ -3,35 +3,19 @@ import * as AdaptiveCards from "adaptivecards";
 import * as ACData from "adaptivecards-templating";
  
 // Define a template payload
-var templatePayload = {
-    "type": "AdaptiveCard",
-    "version": "1.0",
-    "body": [
-        {
-            "type": "TextBlock",
-            "text": "Hello ${name}!"
-        },
-        {
-            "type": "TextBlock",
-            "text": "Date is {{DATE(${formatDateTime(dateInput, 'yyyy-MM-ddTHH:mm:ssZ' )})}}"
-        }
-        ,
-        {
-            "type": "TextBlock",
-            "text": "Date is {{DATE(${dateInput})}}"
-        },
-        ,
-        {
-            "type": "TextBlock",
-            "text": "Date is ${formatDateTime(dateInput, 'dd/MM/yyyy' )}"
-        }
-    ]
-};
+let cardurl = "https://paradigmdownload.blob.core.windows.net/pbiviz/AdaptiveCardDemo/DateTestPlus.json"
+fetch(cardurl)
+.then(response => response.json())
+.then(json => displayTemplate(json))
+.catch(function(error) {
+    console.log('Request failed', error);
+  });
+
+  function displayTemplate(templatePayload) {
  
 // Create a Template instance from the template payload
 var template = new ACData.Template(templatePayload);
- 
-// Expand the template with your `$root` data object.
+    // Expand the template with your `$root` data object.
 // This binds it to the data and produces the final Adaptive Card payload
 var cardPayload = template.expand({
    $root: {
@@ -54,3 +38,5 @@ let thisBrowser = "Vendor: " + vendor + " UserAgent: " + userAgent;
 let p1 = document.createElement("p");
 p1.appendChild(document.createTextNode(thisBrowser));
 document.getElementById('ThisCard').appendChild(p1);
+return;
+}
